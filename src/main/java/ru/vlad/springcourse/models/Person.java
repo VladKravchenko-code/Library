@@ -1,15 +1,13 @@
 package ru.vlad.springcourse.models;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 public class Person {
     private int id;
 
     @NotEmpty(message = "Колонка имя не должна быть пустой")
-    @Size(min = 2, max = 30, message = "Имя должно содержать от 2 до 30 символов")
+    @Size(min = 2, max = 30, message = "ФИО должно содержать от 2 до 50 символов")
+    @Pattern(regexp = "[А-ЯЁ][а-яё]+ [А-ЯЁ][а-яё]+ [А-ЯЁ][а-яё]+", message = "Не верно указано ФИО")
     private String name;
 
     @Min(value = 1900, message = "Год рождения должен быть больше 1900")
