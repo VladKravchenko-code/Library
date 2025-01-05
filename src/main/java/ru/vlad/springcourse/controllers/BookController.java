@@ -6,7 +6,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.vlad.springcourse.dao.BookDAO;
+import ru.vlad.springcourse.dao.PersonDAO;
 import ru.vlad.springcourse.models.Book;
+import ru.vlad.springcourse.models.Person;
 
 import javax.validation.Valid;
 
@@ -15,10 +17,12 @@ import javax.validation.Valid;
 public class BookController {
 
     private final BookDAO bookDAO;
+    private final PersonDAO personDAO;
 
     @Autowired
-    public BookController(BookDAO bookDAO) {
+    public BookController(BookDAO bookDAO, PersonDAO personDAO) {
         this.bookDAO = bookDAO;
+        this.personDAO = personDAO;
     }
 
     @GetMapping()
@@ -28,9 +32,17 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model) {
+    public String show(@PathVariable("id") int id, Model model,
+                       @ModelAttribute("person") Person person) {
         model.addAttribute("book", bookDAO.show(id));
+        model.addAttribute("people", personDAO.index());
         return "/books/show";    //выводит одного
+    }
+
+    @PatchMapping("/{id}")
+    public String metod(@PathVariable("id") int id, @ModelAttribute("person") Person person){
+        bookDAO.metod(id, person.getId()); //позволяет давать книгу человеку(только меняется id_person)
+        return "redirect:/books/{id}";
     }
 
     @GetMapping("/new")
@@ -55,11 +67,11 @@ public class BookController {
         return "/books/edit";
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/{id}/edit")
     public String update(@PathVariable("id") int id, @ModelAttribute("book") @Valid Book book,
                          BindingResult bindingResult) {
         if (bindingResult.hasErrors())
-            return "books/new";  //если есть ошибка, то вернет обратно на туже страницу
+            return "books/edit";  //если есть ошибка, то вернет обратно на туже страницу
 
         bookDAO.update(id, book);
 

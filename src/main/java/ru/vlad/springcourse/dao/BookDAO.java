@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import ru.vlad.springcourse.models.Book;
+import ru.vlad.springcourse.models.Person;
 
 import java.util.List;
 
@@ -39,5 +40,9 @@ public class BookDAO {
 
     public void delete(int id) {
         jdbcTemplate.update("DELETE FROM Book WHERE id=?", id);
+    }
+
+    public void metod(int id, int idPerson){
+        jdbcTemplate.update("UPDATE Book SET id_person=? WHERE id=?", idPerson, id);
     }
 }

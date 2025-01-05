@@ -6,7 +6,7 @@ public class Person {
     private int id;
 
     @NotEmpty(message = "Колонка имя не должна быть пустой")
-    @Size(min = 2, max = 30, message = "ФИО должно содержать от 2 до 50 символов")
+    @Size(min = 2, max = 50, message = "ФИО должно содержать от 2 до 50 символов")
     @Pattern(regexp = "[А-ЯЁ][а-яё]+ [А-ЯЁ][а-яё]+ [А-ЯЁ][а-яё]+", message = "Не верно указано ФИО")
     private String name;
 
