@@ -8,6 +8,7 @@ import ru.vlad.springcourse.models.Book;
 import ru.vlad.springcourse.models.Person;
 
 import java.util.List;
+import java.util.Map;
 
 
 @Component
@@ -40,6 +41,12 @@ public class PersonDAO {
     }
 
     public void delete(int id) {
-        jdbcTemplate.update("DELETE FROM Person WHERE id_person=?", id);
+        jdbcTemplate.update("DELETE FROM Person WHERE id=?", id);
+    }
+
+    public List<Book> displayAllBooksOnePerson (int id) {
+        List<Book> list = jdbcTemplate.query("SELECT * FROM Book WHERE id_person=?",
+                new Object[]{id}, new BeanPropertyRowMapper<>(Book.class));
+        return list;
     }
 }

@@ -36,12 +36,18 @@ public class BookController {
                        @ModelAttribute("person") Person person) {
         model.addAttribute("book", bookDAO.show(id));
         model.addAttribute("people", personDAO.index());
+        model.addAttribute("nullOrNot", bookDAO.method(id));
         return "/books/show";    //выводит одного
     }
 
     @PatchMapping("/{id}")
-    public String metod(@PathVariable("id") int id, @ModelAttribute("person") Person person){
-        bookDAO.metod(id, person.getId()); //позволяет давать книгу человеку(только меняется id_person)
+    public String allowsYouGiveBookPerson(@PathVariable("id") int id, @ModelAttribute("person") Person person){
+        if (bookDAO.method(id) != null) {
+            bookDAO.method2(id);
+            return "redirect:/books/{id}";
+        }
+
+        bookDAO.displaysListPeopleForBook(id, person.getId()); //позволяет давать книгу человеку
         return "redirect:/books/{id}";
     }
 

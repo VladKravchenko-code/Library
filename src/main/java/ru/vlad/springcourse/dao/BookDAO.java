@@ -5,9 +5,9 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import ru.vlad.springcourse.models.Book;
-import ru.vlad.springcourse.models.Person;
 
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class BookDAO {
@@ -42,7 +42,19 @@ public class BookDAO {
         jdbcTemplate.update("DELETE FROM Book WHERE id=?", id);
     }
 
-    public void metod(int id, int idPerson){
-        jdbcTemplate.update("UPDATE Book SET id_person=? WHERE id=?", idPerson, id);
+    public void displaysListPeopleForBook(int id, int idPerson){
+        jdbcTemplate.update("UPDATE Book SET id_person=? WHERE id=?", idPerson, id); //выводит список людей
     }
+
+    public Integer method(int id) {
+        Integer i = jdbcTemplate.queryForObject("SELECT id_person FROM Book WHERE id=?", new Object[]{id},
+                Integer.class);
+        return i;
+    }
+
+    public void method2(int id){
+        jdbcTemplate.update("UPDATE Book SET id_person=null WHERE id=?", id); //выводит список людей
+    }
+
+
 }

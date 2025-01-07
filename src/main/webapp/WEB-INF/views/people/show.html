@@ -2,10 +2,20 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Show</title>
+    <title>Человек</title>
 </head>
 <body>
 <p th:text="${person.getName() + ', ' + person.getAge()}">VALUE</p>
+
+<p th:if="${books.size() == 0}" th:text="'Человек пока не взял не одной книги'"></p>
+
+<hr th:if="${books.size() != 0}"/>
+<strong th:if="${books.size() != 0}" th:text="'Книги: '"></strong>
+<div th:each="book : ${books}" th:if="${books.size() != 0}">
+    <p th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}">user</p>
+</div>
+
+<hr/>
 
 <form th:action="@{/people/{id}/edit(id=${person.getId()})}">
     <button type="submit">Редактировать</button>
