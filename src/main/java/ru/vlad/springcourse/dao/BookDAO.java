@@ -46,13 +46,12 @@ public class BookDAO {
         jdbcTemplate.update("UPDATE Book SET id_person=? WHERE id=?", idPerson, id); //выводит список людей
     }
 
-    public Integer method(int id) {
-        Integer i = jdbcTemplate.queryForObject("SELECT id_person FROM Book WHERE id=?", new Object[]{id},
+    public Integer checksWhichPersonHasThisBook(int id) {
+        return jdbcTemplate.queryForObject("SELECT id_person FROM Book WHERE id=?", new Object[]{id},
                 Integer.class);
-        return i;
     }
 
-    public void method2(int id){
+    public void deletesBookFromUser(int id){
         jdbcTemplate.update("UPDATE Book SET id_person=null WHERE id=?", id); //выводит список людей
     }
 

@@ -9,6 +9,7 @@ import ru.vlad.springcourse.models.Person;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 
 @Component
@@ -28,6 +29,12 @@ public class PersonDAO {
     public Person show(int id) {
         return jdbcTemplate.query("SELECT * FROM Person WHERE id=?", new Object[]{id},
                         new BeanPropertyRowMapper<>(Person.class)).stream().findAny().orElse(null);
+    }
+
+    public Optional<Person> show(String name) {
+        return jdbcTemplate.query("SELECT * FROM Person WHERE name=?", new Object[]{name},
+                new BeanPropertyRowMapper<>(Person.class)).stream().findFirst();
+        //Для проверки есть ли человек с таким именем
     }
 
     public void save(Person person) {

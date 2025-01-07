@@ -36,14 +36,14 @@ public class BookController {
                        @ModelAttribute("person") Person person) {
         model.addAttribute("book", bookDAO.show(id));
         model.addAttribute("people", personDAO.index());
-        model.addAttribute("nullOrNot", bookDAO.method(id));
+        model.addAttribute("idPersonForBook", bookDAO.checksWhichPersonHasThisBook(id));
         return "/books/show";    //выводит одного
     }
 
     @PatchMapping("/{id}")
     public String allowsYouGiveBookPerson(@PathVariable("id") int id, @ModelAttribute("person") Person person){
-        if (bookDAO.method(id) != null) {
-            bookDAO.method2(id);
+        if (bookDAO.checksWhichPersonHasThisBook(id) != null) {
+            bookDAO.deletesBookFromUser(id);
             return "redirect:/books/{id}";
         }
 
@@ -53,7 +53,7 @@ public class BookController {
 
     @GetMapping("/new")
     public String newBook(@ModelAttribute("book") Book book) {
-        return "/books/new";   //get запрос который вереводит на представление
+        return "/books/new";   //get запрос который переводит на представление
     }
 
     @PostMapping()
